@@ -4,6 +4,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down';
 import moment from "moment";
 import get from 'lodash/get';
 import findKey from 'lodash/findKey';
+import toLower from 'lodash/toLower';
 // eslint-disable-next-line
 import * as mdf from "moment-duration-format";
 
@@ -16,17 +17,17 @@ class MatchHistoryItem extends Component {
     }
 
     render() {
-        const { championId, stats } =  get(this.props ,'participant');
+        const { championId, stats } =  get(this.props ,'participant', {});
         const { matchDetail, summonerName, champions, items} = this.props;
 
         const itemsBought1 = [];
         const itemsBought2 = [];
         for(let i = 0; i < 3; i++){
-            const id = stats[`item${i}`].toString();
+            const id = get(stats, `item${i}`) ? get(stats, `item${i}`).toString() : '';
             itemsBought1.push(<li title={get(get(items, id), 'plaintext')} key={i}>{get(get(items, id), 'name')}</li>);
         }
         for(let i = 3; i < 7; i++){
-            const id = stats[`item${i}`].toString();
+            const id =  get(stats, `item${i}`) ? get(stats, `item${i}`).toString() : '';
             itemsBought2.push(<li title={get(get(items, id), 'plaintext')} key={i}>{get(get(items, id), 'name')}</li>);
         }
 
@@ -37,11 +38,11 @@ class MatchHistoryItem extends Component {
 
         for(let i=0;i<5;i++){
             const name = matchDetail.participantIdentities[i].player.summonerName;
-            participantList1.push(<li key={name} className={name === summonerName ? 'bold' : ''}>{name}</li>);
+            participantList1.push(<li key={name} className={toLower(name) === toLower(summonerName) ? 'bold' : ''}>{name}</li>);
         }
         for(let i=5;i<10;i++){
             const name = matchDetail.participantIdentities[i].player.summonerName;
-            participantList2.push(<li key={name} className={name === summonerName ? 'bold' : ''}>{name}</li>);
+            participantList2.push(<li key={name} className={toLower(name) === toLower(summonerName) ? 'bold' : ''}>{name}</li>);
         }
         const gameCreationDate = new Date(matchDetail.gameCreation);
 
@@ -60,19 +61,19 @@ class MatchHistoryItem extends Component {
             <div className={itemClassNames}>
                 <div className={itemColumnClassNames}>
                     <span className="row">{gameCreation}</span>
-                    <span className="row">{stats.win ? 'Victory' : 'Defeat'}</span>
+                    <span className="row">{get(stats, 'win') ? 'Victory' : 'Defeat'}</span>
                     <span className="row">{gameDuration}</span>
                 </div>
                 <div className={itemColumnClassNames}>
                     <span className="row">{champName}</span>
                 </div>
                 <div className={itemColumnClassNames}>
-                    <span className="row">{stats.kills} / {stats.deaths} / {stats.assists} </span>
+                    <span className="row">{get(stats, 'kills') } / {get(stats, 'deaths') } / {get(stats, 'assists') } </span>
                     <span className="row">{KDARatio}:1 KDA</span>
                 </div>
                 <div className={itemColumnClassNames}>
-                    <span className="row">Level {stats.champLevel}</span>
-                    <span title={`minion ${stats.neutralMinionsKilled} + monster ${stats.totalMinionsKilled}`} className="row">{stats.neutralMinionsKilled + stats.totalMinionsKilled}</span>
+                    <span className="row">Level {get(stats, 'champLevel')}</span>
+                    <span title={`minion ${get(stats, 'neutralMinionsKilled')} + monster ${get(stats, 'totalMinionsKilled')}`} className="row">{get(stats, 'neutralMinionsKilled') + get(stats, 'totalMinionsKilled')}</span>
                 </div>
                 <div className={itemColumnClassNames}>
                     <ul className={"itemsBought"}>{itemsBought1}</ul>

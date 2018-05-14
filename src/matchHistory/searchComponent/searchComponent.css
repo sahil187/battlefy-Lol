@@ -1,0 +1,90 @@
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #4caf50;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    width: 200px;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.errorText{
+    display: none;
+    color:red;
+}
+.errorText.showError{
+    display:inline-flex;
+    align-self: center;
+    font-size: 12px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.button:focus{
+    outline: none;
+}
+
+.search {
+    margin: 10px;
+    display: inline-flex;
+}
+
+.searchBox {
+    display: inline-flex;
+    border: 1px solid #0000001f;
+    height: 13px;
+    margin: 10px;
+    padding: 6px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.searchBox.showError {
+    border: 1px solid red;
+}
+
+.searchInput{
+    border: none;
+}
+
+.searchInput:focus{
+    outline: none;
+}
+
+.searchInput+div{
+    align-self: flex-end;
+}
+
+.searchInput+div:hover{
+    cursor: pointer;
+}
+

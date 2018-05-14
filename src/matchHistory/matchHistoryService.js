@@ -1,4 +1,4 @@
-import lowerCase from 'lodash/lowerCase';
+import toLower from 'lodash/toLower';
 import get from 'lodash/get';
 export default class MatchHistoryService {
 
@@ -16,8 +16,9 @@ export default class MatchHistoryService {
            let matchDetailList = get(body, 'matchDetailsList', []);
 
            let participants = matchDetailList.map(matchDetails => {
-                const participantId = matchDetails.participantIdentities
-                    .find(identity => lowerCase(identity.player.summonerName) === lowerCase(summonerName)).participantId;
+               const participant = matchDetails.participantIdentities
+                   .find(identity => toLower(identity.player.summonerName) === toLower(summonerName))
+               const participantId = get(participant, 'participantId');
                return matchDetails.participants
                     .find(participant => participant.participantId === participantId);
            });
